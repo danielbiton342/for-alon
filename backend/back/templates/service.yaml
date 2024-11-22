@@ -7,6 +7,7 @@ spec:
     app: backend
   ports:
     - protocol: TCP
-      port: 5000 # This is the port the service exposes within the cluster
-      targetPort: 5000
-  type: ClusterIP
+      port: 5000
+      targetPort: 5000                  
+      nodePort: 31000
+  type: NodePort

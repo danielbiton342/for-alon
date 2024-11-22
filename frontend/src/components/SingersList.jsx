@@ -13,7 +13,7 @@ const SingersList = () => {
     useEffect(() => {
         const fetchSingers = async () => {
             try {
-                const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers`);
+                const response = await fetch('http://localhost:31000/singers');
                 if (!response.ok) throw new Error('Failed to fetch singers');
                 const data = await response.json();
                 setSingers(data);
@@ -28,7 +28,7 @@ const SingersList = () => {
 
     const handleDeleteSinger = async (id) => {
         try {
-            const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers/${id}`, {
+            const response = await fetch(`http://localhost:31000/singers/${id}`, {
                 method: 'DELETE',
             });
 
@@ -45,7 +45,7 @@ const SingersList = () => {
 
     const handleDeleteSong = async (singerId, songName) => {
         try {
-            const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers/${singerId}/songs/${encodeURIComponent(songName)}`, {
+            const response = await fetch(`http://localhost:31000/singers/${singerId}/songs/${encodeURIComponent(songName)}`, { // Updated to use /api/
                 method: 'DELETE',
             });
 

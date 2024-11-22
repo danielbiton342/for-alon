@@ -9,7 +9,7 @@ const AddSinger = () => {
     useEffect(() => {
         const fetchSingers = async () => {
             try {
-                const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers`);
+                const response = await fetch('http://localhost:31000//singers');
                 if (!response.ok) throw new Error('Failed to fetch singers');
                 const data = await response.json();
                 setSingers(data);
@@ -38,7 +38,7 @@ const AddSinger = () => {
                     return;
                 }
 
-                const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers/${existingSinger.id}`, {
+                const response = await fetch(`http://localhost:31000/singers/${existingSinger.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ songs: newSongsToAdd }),
@@ -47,7 +47,7 @@ const AddSinger = () => {
                 if (!response.ok) throw new Error('Failed to update singer');
                 alert('Songs added to existing singer successfully!');
             } else {
-                const response = await fetch(`http://backend-service.deployment.svc.cluster.local:5000/singers`, {
+                const response = await fetch('http://localhost:31000/singers', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, songs: songArray }),
