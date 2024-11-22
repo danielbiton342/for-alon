@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/musicDB  # MongoDB connection string for the backend
+    depends_on:
+      - mongo
+    networks:
+      - music-network  # Use a custom network for better isolation
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"  # Expose MongoDB port
+    volumes:
+      - ./mongo-init:/docker-entrypoint-initdb.d  # Initialize MongoDB with scripts in this directory
+    networks:
+      - music-network  # Use the same custom network
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:5000  # Use the service name instead of localhost
+    depends_on:
+      - backend
+    networks:
+      - music-network  # Use the same custom network
+
+  tests:
+    build:
+      context: ./backend  # Assuming tests are in the backend directory
+    command: ["pytest", "test_app.py"]  # Run your tests with pytest
+    depends_on:
+      - mongo  # Ensure MongoDB is up before running tests
+    networks:
+      - music-network  # Use the same custom network
+
+networks:
+  music-network:  # Define a custom network for all services to communicate
