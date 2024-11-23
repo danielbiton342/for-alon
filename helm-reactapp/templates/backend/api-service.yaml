@@ -4,10 +4,10 @@ metadata:
   name: backend-service
 spec:
   selector:
-    app: backend
+    app: api
   ports:
     - protocol: TCP
-      port: 5000
+      port: {{ .Values.backend.service.port }}
       targetPort: 5000                  
-      nodePort: 31000
+      nodePort: {{ .Values.backend.service.nodePort }}
   type: NodePort

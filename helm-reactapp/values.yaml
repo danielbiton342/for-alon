@@ -1,11 +1,24 @@
-replicaCount: 1
+frontend:
+  replicaCount: 2
+  image:
+    repository: danbit2024/frontend-app
+    pullPolicy: Always
+    tag: "v1"
+  service:
+    type: nodePort
+    port: 80
+    nodePort: 30000
 
-namespace: deployment
-
-image:
-  repository: danbit2024/frontend-app
-  pullPolicy: Always
-  tag: "v1"
+backend:
+  replicaCount: 1
+  image:
+    repository: danbit2024/backend-app
+    pullPolicy: Always
+    tag: "v1"
+  service:
+    type: nodePort
+    port: 5000
+    nodePort: 31000
 
 imagePullSecrets: []
 nameOverride: ""
@@ -29,13 +42,14 @@ podSecurityContext:
   {}
   # fsGroup: 2000
 
-securityContext: {}
-
-service:
-  type: NodePort
-  port: 80
-  nodePort: 30000 # (optional) Port on the local machine to expose the service
-
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 ingress:
   enabled: false
   className: ""
@@ -53,7 +67,18 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 livenessProbe:
   httpGet:
