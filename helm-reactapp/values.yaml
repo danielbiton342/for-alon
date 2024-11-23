@@ -16,9 +16,8 @@ backend:
     pullPolicy: Always
     tag: "v1"
   service:
-    type: nodePort
+    type: clusterIP
     port: 5000
-    nodePort: 31000
 
 imagePullSecrets: []
 nameOverride: ""
